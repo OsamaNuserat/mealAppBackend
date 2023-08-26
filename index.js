@@ -9,8 +9,9 @@ initApp(app,express);
 
 
 
+
 connectDB().then( ()=>{
     app.listen(process.env.PORT || port ,()=>{
         console.log(`server listening on ${port}`);
-    })
+    }) 
 })  

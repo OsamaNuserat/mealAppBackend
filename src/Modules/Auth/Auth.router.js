@@ -9,18 +9,23 @@ router.post(
   validation(validators.signupSchema),
   AuthController.signup
 );
+
 router.post("/login", validation(validators.loginSchema), AuthController.login);
+
 router.get(
   "/confirmEmail/:token",
   validation(validators.confirmEmail),
   AuthController.confirmEmail
 );
+
 router.get("/NewconfirmEmail/:token", AuthController.NewconfirmEmail);
+
 router.patch(
   "/sendcode",
   validation(validators.sendcode),
   AuthController.sendcode
 );
+
 router.patch(
   "/forgetpassword/:email",
   validation(validators.forgetpassword),
