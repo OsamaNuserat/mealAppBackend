@@ -4,6 +4,8 @@ import AuthRouter from './Auth/Auth.router.js';
 import UserRouter from './User/User.router.js';
 import CategoryRouter from "./Category/category.router.js";
 import CartRouter from "./Cart/Cart.router.js";
+import OrderRouter from "./Order/Order.router.js";
+import ReviewRouter from './Review/Review.router.js';
 import cors from 'cors';
 import path from 'path'; 
 import {fileURLToPath} from 'url';
@@ -19,6 +21,8 @@ const initApp=(app,express)=>{
     app.use('/user', UserRouter);
     app.use('/category',CategoryRouter);
     app.use('/cart',CartRouter);
+    app.use('/order',OrderRouter)
+    app.use('/review',ReviewRouter)
     app.use('*', (req,res)=>{
         return res.json({messaga:"page not found"});
     })

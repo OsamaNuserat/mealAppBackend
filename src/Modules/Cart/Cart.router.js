@@ -7,6 +7,6 @@ import { asyncHandler } from "../../Services/errorHandling.js";
 
 const router = Router();
 
-router.post('/:productId',auth(),validation(validators.createCart),asyncHandler(CartController.createCart));
-
+router.post('/',auth(),asyncHandler(CartController.createCart));
+router.get('/',auth(),asyncHandler(CartController.getCart));
 export default router;

@@ -47,6 +47,12 @@ const userSchema = new Schema(
     },
     changepasswordtime : {
       type:Date,
+    },
+    wishlist:{
+      type:[{
+        type:Schema.Types.ObjectId,
+        ref:'Category'
+      }]
     }
   },
   {

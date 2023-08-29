@@ -65,11 +65,12 @@ export const updateCategory = async (req, res, next) => {
 };
 
 export const getCategory = async (req, res, next) => {
-  const category = await categoryModel.findById(req.params.categoryId);
+  const category = await categoryModel.findById(req.params.categoryId).populate('reviews');
   if (!category) {
     return next(
       new Error(`invalid category id ${req.params.categoryId} `, { cause: 400 })
     );
+
   }
   return res.json({ message: "success", category });
 };

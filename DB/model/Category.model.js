@@ -30,7 +30,14 @@ const categorySchema = new Schema ({
     }
 },
 {
-    timestamps:true
+    timestamps:true,
+    toJSON:{virtuals:true},
+    toObject:{virtuals:true}
+})
+categorySchema.virtual('reviews',{
+    ref:'Review',
+    localField:'_id',
+    foreignField:'categoryId'
 })
 const categoryModel = mongoose.models.Category ||  model('Category', categorySchema); 
 export default categoryModel;
