@@ -2,7 +2,7 @@ import cartModel from "../../../../DB/model/Cart.model.js";
 import categoryModel from "../../../../DB/model/Category.model.js";
 
 export const createCart = async (req, res, next) => { 
-const {categoryId,qty} = req.body;
+const {categoryId,qty} = req.params;
 const product = await categoryModel.findById(categoryId);
 
 
