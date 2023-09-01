@@ -37,7 +37,7 @@ export const signup = asyncHandler(async (req, res, next) => {
     password: hashedPassword,
   });
 
-  return res.status(201).json({ message: "success", user: createUser._id });
+  return res.status(201).json({ message: "success", user:createUser._id });
 });
 
 export const confirmEmail = asyncHandler(async (req, res, next) => {
@@ -109,7 +109,7 @@ export const login = asyncHandler(async (req, res, next) => {
         process.env.LOGINTOKEN,
         24 * 24 * 24 * 365
       );
-      return res.status(200).json({ message: "success", token, refreshtoken });
+      return res.status(200).json({ message: "success", token, refreshtoken , user });
     }
   }
 });
