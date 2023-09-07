@@ -34,7 +34,7 @@ export const createCart = async (req, res, next) => {
   if (!matchedProducts) {
     cart.Products.push({ categoryId, qty });
   }
-  cart.products = cart.Products.filter((product) => product.qty > 0);
+  cart.set({Products:cart.Products.filter((product) => product.qty > 0)}) 
   await cart.save();
   return res.status(201).json({ message: "success", cart });
 };
