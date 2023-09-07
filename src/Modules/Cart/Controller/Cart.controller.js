@@ -31,7 +31,7 @@ export const createCart = async (req, res, next) => {
         cart.products = cart.products.filter(
           (product) => product.categoryId.toString() !== categoryId
         );
-      }
+      } 
 
       matchedProducts = true;
       break;
