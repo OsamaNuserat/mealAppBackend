@@ -26,12 +26,6 @@ export const createCart = async (req, res, next) => {
   for (let i = 0; i < cart.Products.length; i++) {
     if (cart.Products[i].categoryId.toString() === categoryId) {
       cart.Products[i].qty += +qty;
-      if (cart.products[i].qty === 0) {
-        cart.products = cart.products.filter(
-          (product) => product.categoryId.toString() !== categoryId
-        );
-      } 
-
       matchedProducts = true;
       break;
     }
@@ -40,6 +34,7 @@ export const createCart = async (req, res, next) => {
   if (!matchedProducts) {
     cart.Products.push({ categoryId, qty });
   }
+  cart.products = cart.Products.filter((product) => product.qty > 0);
   await cart.save();
   return res.status(201).json({ message: "success", cart });
 };
