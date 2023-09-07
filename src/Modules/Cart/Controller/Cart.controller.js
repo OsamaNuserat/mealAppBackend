@@ -1,4 +1,3 @@
-import { captureRejectionSymbol } from "nodemailer/lib/xoauth2/index.js";
 import cartModel from "../../../../DB/model/Cart.model.js";
 import categoryModel from "../../../../DB/model/Category.model.js";
 
