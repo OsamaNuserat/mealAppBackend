@@ -26,10 +26,6 @@ export const createCart = async (req, res, next) => {
   for (let i = 0; i < cart.Products.length; i++) {
     if (cart.Products[i].categoryId.toString() === categoryId) {
       cart.Products[i].qty += +qty;
-      cart.products[i].qty === 0 &&
-        cart.products.filter(
-          (product) => product.categoryId.toString() !== categoryId
-        );
       matchedProducts = true;
       break;
     }
