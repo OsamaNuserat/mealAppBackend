@@ -1,3 +1,4 @@
+import { captureRejectionSymbol } from "nodemailer/lib/xoauth2/index.js";
 import cartModel from "../../../../DB/model/Cart.model.js";
 import categoryModel from "../../../../DB/model/Category.model.js";
 
@@ -26,6 +27,12 @@ export const createCart = async (req, res, next) => {
   for (let i = 0; i < cart.Products.length; i++) {
     if (cart.Products[i].categoryId.toString() === categoryId) {
       cart.Products[i].qty += +qty;
+      if (cart.products[i].qty === 0) {
+        cart.products = cart.products.filter(
+          (product) => product.categoryId.toString() !== categoryId
+        );
+      }
+
       matchedProducts = true;
       break;
     }
