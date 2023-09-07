@@ -18,7 +18,7 @@ const cart = await cartModel.findOne({userId:req.user._id});
 if(!cart) {
 const newCart = await cartModel.create({
 userId:req.user._id,
-Products:[{categoryId,qty}]
+Products:[{categoryId,qty:+qty}] 
 });
 return res.status(201).json({message:"success",newCart});
 }
@@ -26,7 +26,7 @@ return res.status(201).json({message:"success",newCart});
 let matchedProducts = false;
 for(let i=0;i<cart.Products.length;i++) {
     if(cart.Products[i].categoryId.toString() === categoryId) {
-        cart.Products[i].qty += qty;
+        cart.Products[i].qty += +qty;
         matchedProducts = true;
         break;
     }
