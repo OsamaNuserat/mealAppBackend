@@ -5,16 +5,16 @@ import { asyncHandler } from "../Services/errorHandling.js";
 export const auth = () => {
   return asyncHandler(async (req, res, next) => {
     const { authorization } = req.headers;
-    if (!authorization?.startsWith(process.env.BEARERKEY)) {
+    if (!authorization?.startsWith(process.env.BEARER_KEY)) {
       return next(new Error("invalid bearer key", { cause: 401 }));
     }
 
-    const token = authorization.split(process.env.BEARERKEY)[1];
+    const token = authorization.split(process.env.BEARER_KEY)[1];
     if (!token) {
       return next(new Error("invalid token", { cause: 401 }));
     }
 
-    const decoded = verifyToken(token, process.env.LOGINTOKEN);
+    const decoded = verifyToken(token, process.env.CONFIRM_SIGNATURE);
     if (!decoded) {
       return next(new Error("invalid token", { cause: 401 }));
     }

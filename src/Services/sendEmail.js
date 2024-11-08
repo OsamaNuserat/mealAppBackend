@@ -4,10 +4,10 @@ import nodemailer from "nodemailer";
 export async function sendEmail(to,subject,html) {
 
   let transporter = nodemailer.createTransport({
-    service:'gmail',
+    service: "gmail",
     auth: {
       user: process.env.EMAIL, // generated ethereal user
-      pass: process.env.EMAIL_PASSWORD, // generated ethereal password
+      pass: process.env.APP_PASSWORD, // generated ethereal password
     },
   });
 

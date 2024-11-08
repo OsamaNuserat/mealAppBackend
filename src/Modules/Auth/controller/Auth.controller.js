@@ -8,19 +8,17 @@ import {
 import { compare, hash } from "../../../Services/hashAndCompare.js";
 import { sendEmail } from "../../../Services/sendEmail.js";
 
-
 export const signup = asyncHandler(async (req, res, next) => {
   const { userName, email, password } = req.body;
 
   const user = await userModel.findOne({ email });
   if (user) {
-   
     return next(new Error("email already exists"), { cause: 409 });
   }
-  const token = generateToken({ email }, process.env.TOKEN_SIGNATURE, 60 * 5); // 5 minutes
+  const token = generateToken({ email }, process.env.SIGNATURE, 60 * 5); // 5 minutes
   const refreshToken = generateToken(
     { email },
-    process.env.TOKEN_SIGNATURE,
+    process.env.SIGNATURE,
     60 * 60 * 24 * 7
   ); // 7 days
 
@@ -37,13 +35,13 @@ export const signup = asyncHandler(async (req, res, next) => {
     password: hashedPassword,
   });
 
-  return res.status(201).json({ message: "success", user:createUser._id });
+  return res.status(201).json({ message: "success", user: createUser._id });
 });
 
 export const confirmEmail = asyncHandler(async (req, res, next) => {
   const { token } = req.params;
 
-  const decoded = verifyToken(token, process.env.TOKEN_SIGNATURE);
+  const decoded = verifyToken(token, process.env.SIGNATURE);
 
   if (!decoded?.email) {
     return next(new Error("invalid token"), { cause: 400 });
@@ -65,7 +63,7 @@ export const confirmEmail = asyncHandler(async (req, res, next) => {
 
 export const NewconfirmEmail = asyncHandler(async (req, res) => {
   let { token } = req.params;
-  const { email } = verifyToken(token, process.env.TOKEN_SIGNATURE);
+  const { email } = verifyToken(token, process.env.SIGNATURE);
 
   if (!email) {
     return res.status(401).json({ message: "invalid token" });
@@ -77,7 +75,7 @@ export const NewconfirmEmail = asyncHandler(async (req, res) => {
   if (user.confirmEmail) {
     return res.status(401).json({ message: "already confirmed" });
   }
-  token = generateToken({ email }, process.env.TOKEN_SIGNATURE, 60 * 5); // 5 minutes
+  token = generateToken({ email }, process.env.SIGNATURE, 60 * 5); // 5 minutes
 
   const link = `${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}`;
   const html = `<a href="${link}">confirm email</a>`;
@@ -101,15 +99,17 @@ export const login = asyncHandler(async (req, res, next) => {
     } else {
       const token = generateToken(
         { id: user._id, role: user.role },
-        process.env.LOGINTOKEN,
+        process.env.CONFIRM_SIGNATURE,
         "1h"
       );
       const refreshtoken = generateToken(
         { id: user._id, role: user.role },
-        process.env.LOGINTOKEN,
+        process.env.CONFIRM_SIGNATURE,
         24 * 24 * 24 * 365
       );
-      return res.status(200).json({ message: "success", token, refreshtoken , user });
+      return res
+        .status(200)
+        .json({ message: "success", token, refreshtoken, user });
     }
   }
 });
@@ -129,8 +129,8 @@ export const sendcode = asyncHandler(async (req, res, next) => {
 });
 
 export const forgetpassword = asyncHandler(async (req, res, next) => {
-  const {  code, password } = req.body;
-  const {email} = req.params;
+  const { code, password } = req.body;
+  const { email } = req.params;
   const user = await userModel.findOne({ email });
   if (!user) {
     return next(new Error("not registered"), { cause: 400 });
