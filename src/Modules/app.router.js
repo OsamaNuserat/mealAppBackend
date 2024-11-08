@@ -16,6 +16,9 @@ const initApp=(app,express)=>{
     
     app.use(express.json());
     app.use(cors())
+    app.get('/',(req,res)=>{
+        return res.json({message:"welcome to my app"})
+    })
     app.use('/upload',express.static(fullPath));
     app.use("/auth", AuthRouter);
     app.use('/user', UserRouter);
